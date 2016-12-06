@@ -75,7 +75,7 @@ FREERTOS_OBJS = queue.o list.o tasks.o
 #FREERTOS_OBJS += event_groups.o
 
 # The following is necessary to get the Ethernet adapter to work
-FREERTOS_OBJS += smc91x.o
+#FREERTOS_OBJS += smc91x.o
 
 # Only one memory management .o file must be uncommented!
 FREERTOS_MEMMANG_OBJS = heap_1.o

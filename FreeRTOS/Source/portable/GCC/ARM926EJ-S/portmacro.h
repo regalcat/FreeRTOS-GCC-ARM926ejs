@@ -138,7 +138,7 @@ typedef uint32_t UBaseType_t;
 #define portRESTORE_CONTEXT()                                           \
 {                                                                       \
 extern volatile void * volatile pxCurrentTCB;                           \
-extern volatile uint32_t ulCriticalNesting;                    \
+extern volatile unsigned long ulCriticalNesting;                    \
                                                                         \
     /* Set the LR to the task stack. */                                 \
     __asm volatile (                                                    \
@@ -175,7 +175,7 @@ extern volatile uint32_t ulCriticalNesting;                    \
 #define portSAVE_CONTEXT()                                              \
 {                                                                       \
 extern volatile void * volatile pxCurrentTCB;                           \
-extern volatile uint32_t ulCriticalNesting;                    \
+extern volatile unsigned long ulCriticalNesting;                    \
                                                                         \
     /* Push R0 as we are going to use the register. */                  \
     __asm volatile (                                                    \
