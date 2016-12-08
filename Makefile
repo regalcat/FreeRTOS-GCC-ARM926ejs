@@ -74,9 +74,6 @@ FREERTOS_OBJS = queue.o list.o tasks.o
 #FREERTOS_OBJS += croutine.o
 #FREERTOS_OBJS += event_groups.o
 
-# The following is necessary to get the Ethernet adapter to work
-#FREERTOS_OBJS += smc91x.o
-
 # Only one memory management .o file must be uncommented!
 FREERTOS_MEMMANG_OBJS = heap_1.o
 #FREERTOS_MEMMANG_OBJS = heap_2.o
@@ -86,7 +83,7 @@ FREERTOS_MEMMANG_OBJS = heap_1.o
 
 FREERTOS_PORT_OBJS = port.o portISR.o
 STARTUP_OBJ = startup.o
-DRIVERS_OBJS = timer.o interrupt.o uart.o
+DRIVERS_OBJS = timer.o interrupt.o uart.o smc91x.o
 
 APP_OBJS = init.o main.o print.o receive.o
 # nostdlib.o must be commented out if standard lib is going to be linked!
@@ -108,7 +105,7 @@ INC_DRIVERS = $(DRIVERS_SRC)include/
 # Complete include flags to be passed to $(CC) where necessary
 INC_FLAGS = $(INCLUDEFLAG)$(INC_FREERTOS) $(INCLUDEFLAG)$(APP_SRC) $(INCLUDEFLAG)$(FREERTOS_PORT_SRC)
 INC_FLAG_DRIVERS = $(INCLUDEFLAG)$(INC_DRIVERS)
-
+INC_FLAG_NET_DRIVERS = $(INC_FLAG_DRIVERS) $(INCLUDEFLAG)~/projects/linux/include/
 # Dependency on HW specific settings
 DEP_BSP = $(INC_DRIVERS)bsp.h
 
@@ -204,6 +201,8 @@ $(OBJDIR)interrupt.o : $(DRIVERS_SRC)interrupt.c $(DEP_BSP)
 $(OBJDIR)uart.o : $(DRIVERS_SRC)uart.c $(DEP_BSP)
 	$(CC) $(CFLAG) $(CFLAGS) $(INC_FLAG_DRIVERS) $< $(OFLAG) $@
 
+$(OBJDIR)smc91x.o : $(DRIVERS_SRC)smc91x.c $(DEP_BSP)
+	$(CC) $(CFLAG) $(CFLAGS) $(INC_FLAG_NET_DRIVERS) $< $(OFLAG) $@
 # Demo application
 
 $(OBJDIR)main.o : $(APP_SRC)main.c
