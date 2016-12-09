@@ -29,17 +29,25 @@ typedef struct{
     char * name;
     int deficit;
 } connection;
-
+/*
 static long holdrand = 1L;
 
-static void srand(unsigned int seed) {
-    holdrand = (long) seed;
+static void srand(long seed) {
+    holdrand = seed;
 }
 
 static int rand() {
-    return (((holdrand = holdrand * 214013L + 2531011L) >> 16) & 0x7fff);
+    return (((holdrand = holdrand * 214013L + 2531011L) >> 16) & 0x7fffL);
 }
 
+unsigned long long __aeabi_i2d(int v) {union {long long l; int i[2]}; u; u.i[0] = v; u.i[1] = 0; return u.l;}
+
+int __aeabi_dcmpit(double left, double right){
+    (void) left;
+    (void) right;
+    return 0;
+}
+*/
 void LDFSchedulerTask(void* params){
 
     /* Initialize the things */
@@ -54,10 +62,10 @@ void LDFSchedulerTask(void* params){
     c3.name = "Connection 3\r\n";
     c3.deficit = 0;
     // Seed the random number number generator
-    srand(1002);
+    //srand(1002L);
     /* Do the receive stuff */
     int i=0;
-    for(i=0; i<C1_INC; i++){
+   /* for(i=0; i<C1_INC; i++){
         if(rand()%10 < Q*10)
             c1.deficit++;
     }
@@ -70,7 +78,10 @@ void LDFSchedulerTask(void* params){
     for(i=0; i<C3_INC; i++){
         if(rand()%10 < Q*10)
             c3.deficit++;
-    }
+    }*/
+    c1.deficit = 1;
+    c2.deficit = 2;
+    c3.deficit = 2;
     /* Schedule things */
     while(c1.deficit>0 || c2.deficit>0 || c3.deficit>0){
         // Find the largest deficit

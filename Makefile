@@ -233,7 +233,7 @@ $(OBJDIR)print.o : $(APP_SRC)print.c
 	$(CC) $(CFLAG) $(CFLAGS) $(INC_FLAGS) $(INC_FLAG_DRIVERS) $< $(OFLAG) $@
 
 $(OBJDIR)LDFScheduler.o : $(APP_SRC)LDFScheduler.c
-	$(CC) $(CFLAG) $(CFLAGS) $(INC_FLAGS) $(INC_FLAG_DRIVERS) -I/usr/lib/gcc/arm-linux-gnueabi/4.9/ $< $(OFLAG) $@
+	$(CC) $(CFLAG) $(CFLAGS) $(INC_FLAGS) $(INC_FLAG_DRIVERS) $< $(OFLAG) $@
 
 # Cleanup directives:
 
