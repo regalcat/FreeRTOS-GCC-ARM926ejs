@@ -8,10 +8,8 @@
 #ifndef LDFSCHEDULER_H_
 #define LDFSCHEDULER_H_
 
-class LDFScheduler {
-public:
-	LDFScheduler();
-	virtual ~LDFScheduler();
-};
+#include <FreeRTOS.h>
+
+void LDFSchedulerTask(void* params);
 
 #endif /* LDFSCHEDULER_H_ */

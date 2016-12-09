@@ -61,7 +61,7 @@ FREERTOS_PORT_SRC = $(FREERTOS_SRC)portable/$(PORT_COMP_TARG)
 DRIVERS_SRC = drivers/
 
 # Directory with demo specific source (and header) files
-APP_SRC = Demo/
+APP_SRC = LDFDemo/
 
 
 # Object files to be linked into an application
@@ -83,11 +83,13 @@ FREERTOS_MEMMANG_OBJS = heap_1.o
 
 FREERTOS_PORT_OBJS = port.o portISR.o
 STARTUP_OBJ = startup.o
-DRIVERS_OBJS = timer.o interrupt.o uart.o smc91x.o
+DRIVERS_OBJS = timer.o interrupt.o uart.o #smc91x.o
 
-APP_OBJS = init.o main.o print.o receive.o
+APP_OBJS = init.o main.o print.o LDFScheduler.o
 # nostdlib.o must be commented out if standard lib is going to be linked!
 APP_OBJS += nostdlib.o
+# Add me back in for Demo
+# APP_OBJS += receive.o
 
 
 # All object files specified above are prefixed the intermediate directory
@@ -105,7 +107,7 @@ INC_DRIVERS = $(DRIVERS_SRC)include/
 # Complete include flags to be passed to $(CC) where necessary
 INC_FLAGS = $(INCLUDEFLAG)$(INC_FREERTOS) $(INCLUDEFLAG)$(APP_SRC) $(INCLUDEFLAG)$(FREERTOS_PORT_SRC)
 INC_FLAG_DRIVERS = $(INCLUDEFLAG)$(INC_DRIVERS)
-INC_FLAG_NET_DRIVERS = $(INC_FLAG_DRIVERS) $(INCLUDEFLAG)~/projects/linux/include/
+#INC_FLAG_NET_DRIVERS = $(INC_FLAG_DRIVERS) $(INCLUDEFLAG)~/projects/linux/include/
 # Dependency on HW specific settings
 DEP_BSP = $(INC_DRIVERS)bsp.h
 
@@ -201,10 +203,26 @@ $(OBJDIR)interrupt.o : $(DRIVERS_SRC)interrupt.c $(DEP_BSP)
 $(OBJDIR)uart.o : $(DRIVERS_SRC)uart.c $(DEP_BSP)
 	$(CC) $(CFLAG) $(CFLAGS) $(INC_FLAG_DRIVERS) $< $(OFLAG) $@
 
-$(OBJDIR)smc91x.o : $(DRIVERS_SRC)smc91x.c $(DEP_BSP)
-	$(CC) $(CFLAG) $(CFLAGS) $(INC_FLAG_NET_DRIVERS) $< $(OFLAG) $@
+#$(OBJDIR)smc91x.o : $(DRIVERS_SRC)smc91x.c $(DEP_BSP)
+#	$(CC) $(CFLAG) $(CFLAGS) $(INC_FLAG_NET_DRIVERS) $< $(OFLAG) $@
 # Demo application
 
+#$(OBJDIR)main.o : $(APP_SRC)main.c
+#	$(CC) $(CFLAG) $(CFLAGS) $(INC_FLAGS) $< $(OFLAG) $@
+#
+#$(OBJDIR)init.o : $(APP_SRC)init.c $(DEP_BSP)
+#	$(CC) $(CFLAG) $(CFLAGS) $(INC_FLAG_DRIVERS) $< $(OFLAG) $@
+#
+#$(OBJDIR)print.o : $(APP_SRC)print.c
+#	$(CC) $(CFLAG) $(CFLAGS) $(INC_FLAGS) $(INC_FLAG_DRIVERS) $< $(OFLAG) $@
+#
+#$(OBJDIR)receive.o : $(APP_SRC)receive.c $(DEP_BSP)
+#	$(CC) $(CFLAG) $(CFLAGS) $(INC_FLAGS) $(INC_FLAG_DRIVERS) $< $(OFLAG) $@
+#
+$(OBJDIR)nostdlib.o : $(APP_SRC)nostdlib.c
+	$(CC) $(CFLAG) $(CFLAGS) $< $(OFLAG) $@
+
+# LDF Demo Application
 $(OBJDIR)main.o : $(APP_SRC)main.c
 	$(CC) $(CFLAG) $(CFLAGS) $(INC_FLAGS) $< $(OFLAG) $@
 
@@ -214,12 +232,8 @@ $(OBJDIR)init.o : $(APP_SRC)init.c $(DEP_BSP)
 $(OBJDIR)print.o : $(APP_SRC)print.c
 	$(CC) $(CFLAG) $(CFLAGS) $(INC_FLAGS) $(INC_FLAG_DRIVERS) $< $(OFLAG) $@
 
-$(OBJDIR)receive.o : $(APP_SRC)receive.c $(DEP_BSP)
-	$(CC) $(CFLAG) $(CFLAGS) $(INC_FLAGS) $(INC_FLAG_DRIVERS) $< $(OFLAG) $@
-
-$(OBJDIR)nostdlib.o : $(APP_SRC)nostdlib.c
-	$(CC) $(CFLAG) $(CFLAGS) $< $(OFLAG) $@
-
+$(OBJDIR)LDFScheduler.o : $(APP_SRC)LDFScheduler.c
+	$(CC) $(CFLAG) $(CFLAGS) $(INC_FLAGS) $(INC_FLAG_DRIVERS) -I/usr/lib/gcc/arm-linux-gnueabi/4.9/ $< $(OFLAG) $@
 
 # Cleanup directives:
 
