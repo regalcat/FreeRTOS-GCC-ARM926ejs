@@ -106,8 +106,10 @@ SECTIONS
     .bss :
     {
         __bss_begin = .;
+	__bss_start__ = .;
         *(.bss)
         __bss_end = .;
+	__bss_end__ = .;
     }
     . = ALIGN(4);                  /* The section size is aligned to the 4-byte boundary */
 

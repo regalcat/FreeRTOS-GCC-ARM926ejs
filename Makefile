@@ -23,10 +23,11 @@
 # and setting the appropriate environment variables.
 
 TOOLCHAIN = arm-none-eabi-
+#TOOLCHAIN = arm-linux-gnueabi-
 CC = $(TOOLCHAIN)gcc
 CXX = $(TOOLCHAIN)g++
 AS = $(TOOLCHAIN)as
-LD = $(TOOLCHAIN)ld
+LD = $(TOOLCHAIN)gcc
 OBJCOPY = $(TOOLCHAIN)objcopy
 AR = $(TOOLCHAIN)ar
 
@@ -82,12 +83,12 @@ FREERTOS_MEMMANG_OBJS = heap_1.o
 #FREERTOS_MEMMANG_OBJS = heap_5.o
 
 FREERTOS_PORT_OBJS = port.o portISR.o
-STARTUP_OBJ = startup.o
+STARTUP_OBJ = startup.o init.o
 DRIVERS_OBJS = timer.o interrupt.o uart.o
 
-APP_OBJS = init.o main.o print.o receive.o
+APP_OBJS = main.o print.o receive.o
 # nostdlib.o must be commented out if standard lib is going to be linked!
-APP_OBJS += nostdlib.o
+#APP_OBJS += nostdlib.o
 
 
 # All object files specified above are prefixed the intermediate directory
@@ -125,7 +126,7 @@ $(OBJDIR) :
 	mkdir -p $@
 
 $(ELF_IMAGE) : $(OBJS) $(LINKER_SCRIPT)
-	$(LD) -nostdlib -L $(OBJDIR) -T $(LINKER_SCRIPT) $(OBJS) $(OFLAG) $@
+	$(LD) -v -L $(OBJDIR) -T $(LINKER_SCRIPT) $(OBJS) $(OFLAG) $@
 
 debug : _debug_flags all
 
