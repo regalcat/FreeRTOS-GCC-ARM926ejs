@@ -26,7 +26,7 @@ TOOLCHAIN = arm-linux-gnueabi-
 CC = $(TOOLCHAIN)gcc
 CXX = $(TOOLCHAIN)g++
 AS = $(TOOLCHAIN)as
-LD = $(TOOLCHAIN)ld
+LD = $(TOOLCHAIN)gcc
 OBJCOPY = $(TOOLCHAIN)objcopy
 AR = $(TOOLCHAIN)ar
 
@@ -82,14 +82,12 @@ FREERTOS_MEMMANG_OBJS = heap_1.o
 #FREERTOS_MEMMANG_OBJS = heap_5.o
 
 FREERTOS_PORT_OBJS = port.o portISR.o
-STARTUP_OBJ = startup.o
-DRIVERS_OBJS = timer.o interrupt.o uart.o #smc91x.o
+STARTUP_OBJ = startup.o init.o
+DRIVERS_OBJS = timer.o interrupt.o uart.o
 
-APP_OBJS = init.o main.o print.o LDFScheduler.o
+APP_OBJS = main.o print.o LDFScheduler.o
 # nostdlib.o must be commented out if standard lib is going to be linked!
-APP_OBJS += nostdlib.o
-# Add me back in for Demo
-# APP_OBJS += receive.o
+#APP_OBJS += nostdlib.o
 
 
 # All object files specified above are prefixed the intermediate directory
@@ -127,7 +125,7 @@ $(OBJDIR) :
 	mkdir -p $@
 
 $(ELF_IMAGE) : $(OBJS) $(LINKER_SCRIPT)
-	$(LD) -nostdlib -L $(OBJDIR) -T $(LINKER_SCRIPT) $(OBJS) $(OFLAG) $@
+	$(LD) -v -L $(OBJDIR) -T $(LINKER_SCRIPT) $(OBJS) $(OFLAG) $@
 
 debug : _debug_flags all
 
@@ -233,7 +231,7 @@ $(OBJDIR)print.o : $(APP_SRC)print.c
 	$(CC) $(CFLAG) $(CFLAGS) $(INC_FLAGS) $(INC_FLAG_DRIVERS) $< $(OFLAG) $@
 
 $(OBJDIR)LDFScheduler.o : $(APP_SRC)LDFScheduler.c
-	$(CC) $(CFLAG) $(CFLAGS) $(INC_FLAGS) $(INC_FLAG_DRIVERS) -I/usr/lib/gcc/arm-linux-gnueabi/4.9/ $< $(OFLAG) $@
+	$(CC) $(CFLAG) $(CFLAGS) $(INC_FLAGS) $(INC_FLAG_DRIVERS) $< $(OFLAG) $@
 
 # Cleanup directives:
 

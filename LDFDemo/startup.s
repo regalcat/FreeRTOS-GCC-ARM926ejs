@@ -154,9 +154,12 @@ bss_clear_loop:
     ORR r1, r1, #MODE_SVC
     MSR cpsr, r1
 
-    BL _init                               @ before the application is started, initialize all hardware
+    BL _os_init                               @ before the application is started, initialize all hardware
 
     B main                                 @ and finally start the application
+
+    .global _exit
+    _exit:
 
 unhandled:
     B .                                    @ infinite loop for unsupported exceptions
@@ -167,5 +170,4 @@ __bss_begin_addr:
     .word __bss_begin
 __bss_end_addr:
     .word __bss_end
-
 .end

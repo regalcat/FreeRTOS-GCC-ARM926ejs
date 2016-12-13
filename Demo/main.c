@@ -31,7 +31,7 @@ limitations under the License.
 #include "app_config.h"
 #include "print.h"
 #include "receive.h"
-
+#include <stdlib.h>
 
 /*
  * This diagnostic pragma will suppress the -Wmain warning,
@@ -155,6 +155,9 @@ void main(void)
     {
         FreeRTOS_Error("Initialization of print failed\r\n");
     }
+
+	srand(0);
+	rand();
 
     /*
      * I M P O R T A N T :

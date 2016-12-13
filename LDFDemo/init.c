@@ -37,7 +37,7 @@ limitations under the License.
   * Performs initialization of all supported hardware.
   * All peripherals are stopped, their interrupt triggering is disabled, etc.
   */
- void _init(void)
+ void _os_init(void)
  {
      uint8_t i;
      uint8_t j;
