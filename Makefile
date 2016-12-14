@@ -217,8 +217,8 @@ $(OBJDIR)uart.o : $(DRIVERS_SRC)uart.c $(DEP_BSP)
 #$(OBJDIR)receive.o : $(APP_SRC)receive.c $(DEP_BSP)
 #	$(CC) $(CFLAG) $(CFLAGS) $(INC_FLAGS) $(INC_FLAG_DRIVERS) $< $(OFLAG) $@
 #
-$(OBJDIR)nostdlib.o : $(APP_SRC)nostdlib.c
-	$(CC) $(CFLAG) $(CFLAGS) $< $(OFLAG) $@
+#$(OBJDIR)nostdlib.o : $(APP_SRC)nostdlib.c
+#	$(CC) $(CFLAG) $(CFLAGS) $< $(OFLAG) $@
 
 # LDF Demo Application
 $(OBJDIR)main.o : $(APP_SRC)main.c
