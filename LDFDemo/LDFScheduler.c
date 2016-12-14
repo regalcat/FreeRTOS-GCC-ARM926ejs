@@ -8,6 +8,7 @@
 /* Standard Stuff */
 //#include <time.h>
 #include <stddef.h>
+#include <stdlib.h>
 /* FreeRTOS Stuff */
 #include <FreeRTOS.h>
 #include <task.h>
@@ -30,16 +31,6 @@ typedef struct{
     int deficit;
 } connection;
 
-static long holdrand = 1L;
-
-static void srand(unsigned int seed) {
-    holdrand = (long) seed;
-}
-
-static int rand() {
-    return (((holdrand = holdrand * 214013L + 2531011L) >> 16) & 0x7fff);
-}
-
 void LDFSchedulerTask(void* params){
 
     /* Initialize the things */
@@ -54,7 +45,7 @@ void LDFSchedulerTask(void* params){
     c3.name = "Connection 3\r\n";
     c3.deficit = 0;
     // Seed the random number number generator
-    srand(1002);
+    srand(1002L);
     /* Do the receive stuff */
     int i=0;
     for(i=0; i<C1_INC; i++){

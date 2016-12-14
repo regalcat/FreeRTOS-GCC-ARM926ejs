@@ -154,7 +154,6 @@ bss_clear_loop:
     ORR r1, r1, #MODE_SVC
     MSR cpsr, r1
 
-    BL _init
     BL _os_init                               @ before the application is started, initialize all hardware
 
     B main                                 @ and finally start the application

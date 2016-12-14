@@ -22,7 +22,7 @@
 # See comments in "setenv.sh" for more details about downloading it
 # and setting the appropriate environment variables.
 
-TOOLCHAIN = arm-linux-gnueabi-
+TOOLCHAIN = arm-none-eabi-
 CC = $(TOOLCHAIN)gcc
 CXX = $(TOOLCHAIN)g++
 AS = $(TOOLCHAIN)as
@@ -36,7 +36,7 @@ OFLAG = -o
 INCLUDEFLAG = -I
 CPUFLAG = -mcpu=arm926ej-s
 WFLAG = -Wall -Wextra -Werror
-CFLAGS = $(CPUFLAG) $(WFLAG)
+CFLAGS = $(CPUFLAG) $(WFLAG) -fshort-enums
 
 # Additional C compiler flags to produce debugging symbols
 DEB_FLAG = -g -DDEBUG
@@ -125,7 +125,7 @@ $(OBJDIR) :
 	mkdir -p $@
 
 $(ELF_IMAGE) : $(OBJS) $(LINKER_SCRIPT)
-	$(LD) -v -L $(OBJDIR) -T $(LINKER_SCRIPT) $(OBJS) $(OFLAG) $@
+	$(LD) -L $(OBJDIR) -T $(LINKER_SCRIPT) $(OBJS) $(OFLAG) $@
 
 debug : _debug_flags all
 
